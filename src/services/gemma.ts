@@ -218,7 +218,7 @@ export async function analyzeResource(fileName: string): Promise<ResourceAnalysi
 export type GeneratedArtifact = { title: string; content: string };
 
 function simulatedArtifact(
-  kind: "quiz" | "resumen" | "clase" | "flashcards",
+  kind: "quiz" | "resumen" | "clase",
   context: ResourceAnalysis,
 ): GeneratedArtifact {
   const canned: Record<typeof kind, GeneratedArtifact> = {
@@ -234,24 +234,19 @@ function simulatedArtifact(
         `Duración estimada: ${context.estimatedTime}.\n` +
         "Actividad de apertura, desarrollo con ejemplos visuales y cierre con quiz rápido.",
     },
-    flashcards: {
-      title: "Flashcards generadas",
-      content: context.keyConcepts.map((c) => `• ${c}`).join("\n"),
-    },
   };
   return canned[kind];
 }
 
-const ARTIFACT_TITLES: Record<"quiz" | "resumen" | "clase" | "flashcards", string> = {
+const ARTIFACT_TITLES: Record<"quiz" | "resumen" | "clase", string> = {
   quiz: "Quiz generado",
   resumen: "Resumen generado",
   clase: "Plan de clase generado",
-  flashcards: "Flashcards generadas",
 };
 
-/** Generates a quiz / summary / lesson plan / flashcards from an analyzed resource. */
+/** Generates a quiz / summary / lesson plan from an analyzed resource. */
 export async function generateFromResource(
-  kind: "quiz" | "resumen" | "clase" | "flashcards",
+  kind: "quiz" | "resumen" | "clase",
   context: ResourceAnalysis,
 ): Promise<GeneratedArtifact> {
   try {
@@ -267,5 +262,42 @@ export async function generateFromResource(
     return { title: ARTIFACT_TITLES[kind], content: cleanGemmaText(content) };
   } catch {
     return new Promise((resolve) => setTimeout(() => resolve(simulatedArtifact(kind, context)), 1100));
+  }
+}
+
+export type Flashcard = { front: string; back: string };
+
+function simulatedFlashcards(context: ResourceAnalysis): Flashcard[] {
+  return context.keyConcepts.map((concept, i) => ({
+    front: concept,
+    back:
+      context.suggestedQuestions[i] ??
+      `Concepto clave de ${context.topics[0] ?? "este tema"}, revisado en "${context.level}".`,
+  }));
+}
+
+/** Generates an interactive front/back flashcard deck from an analyzed resource. */
+export async function generateFlashcards(context: ResourceAnalysis): Promise<Flashcard[]> {
+  try {
+    const content = await callGemma(
+      [
+        {
+          role: "system",
+          content:
+            "Genera entre 5 y 8 flashcards de estudio a partir de este análisis de contenido educativo. " +
+            'Responde ÚNICAMENTE con un array JSON de objetos: [{"front": "...", "back": "..."}]. ' +
+            '"front" es un concepto o pregunta corta (máx 8 palabras), "back" es la respuesta o definición breve (máx 25 palabras). ' +
+            "No incluyas markdown, LaTeX ni texto fuera del array JSON.",
+        },
+        { role: "user", content: JSON.stringify(context) },
+      ],
+      true,
+    );
+    const cleaned = content.replace(/```json\s*/gi, "").replace(/```\s*/g, "").trim();
+    const parsed = JSON.parse(cleaned) as Flashcard[];
+    if (!Array.isArray(parsed) || parsed.length === 0) throw new Error("Gemma devolvió flashcards vacías.");
+    return parsed.map((f) => ({ front: cleanGemmaText(f.front), back: cleanGemmaText(f.back) }));
+  } catch {
+    return new Promise((resolve) => setTimeout(() => resolve(simulatedFlashcards(context)), 1100));
   }
 }

@@ -2,18 +2,23 @@
 
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { CheckCircle2, Circle, ListChecks, Rocket } from "lucide-react";
+import { CheckCircle2, Circle, ListChecks, Rocket, GraduationCap } from "lucide-react";
 import { Card } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { XPCard } from "@/components/cards/xp-card";
 import { Mascot } from "@/components/kibo/mascot";
 import { useStudentProfile } from "@/lib/student-profile";
+import { useClassesStore } from "@/lib/classes-store";
 import { mockStudentProgress } from "@/lib/mock-data";
 import { cn } from "@/lib/utils";
 
 export default function AlumnoDashboardPage() {
   const { profile, loaded } = useStudentProfile();
-  if (!loaded) return null;
+  const { findById, loaded: classesLoaded } = useClassesStore();
+  if (!loaded || !classesLoaded) return null;
+
+  const clase = profile.classId ? findById(profile.classId) : undefined;
 
   return (
     <main className="mx-auto max-w-4xl px-4 py-8 sm:px-6 sm:py-12">
@@ -28,7 +33,35 @@ export default function AlumnoDashboardPage() {
             ¡Hola! Soy <span className="font-bold text-[var(--color-primary)]">{profile.name}</span>. Estoy aquí para ayudarte.
           </p>
         </div>
+        {clase && (
+          <Badge variant="primary" className="ml-auto">
+            <GraduationCap className="h-3.5 w-3.5" />
+            {clase.name}
+          </Badge>
+        )}
       </motion.div>
+
+      {clase && clase.topics.length > 0 && (
+        <motion.div
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.03 }}
+          className="mt-6"
+        >
+          <p className="mb-3 text-sm font-semibold text-black/60">Temas de {clase.name}</p>
+          <div className="grid gap-3 sm:grid-cols-3">
+            {clase.topics.map((topic) => (
+              <Card key={topic.topic} className="p-4">
+                <p className="text-sm font-semibold">{topic.topic}</p>
+                <div className="mt-2 h-1.5 overflow-hidden rounded-full bg-[var(--color-surface-muted)]">
+                  <div className="h-full gradient-brand" style={{ width: `${topic.mastery}%` }} />
+                </div>
+                <p className="mt-1.5 text-xs text-black/40">{topic.mastery}% de dominio</p>
+              </Card>
+            ))}
+          </div>
+        </motion.div>
+      )}
 
       <div className="mt-6 grid gap-5 md:grid-cols-2">
         <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.05 }}>

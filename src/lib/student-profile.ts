@@ -5,6 +5,9 @@ import type { MascotEyes, MascotHat } from "@/components/kibo/mascot";
 
 export type StudentProfile = {
   classCode: string;
+  classId: string;
+  className: string;
+  classSubject: string;
   name: string;
   color: string;
   eyes: MascotEyes;
@@ -15,6 +18,9 @@ export type StudentProfile = {
 
 export const DEFAULT_PROFILE: StudentProfile = {
   classCode: "",
+  classId: "",
+  className: "",
+  classSubject: "",
   name: "Kibo",
   color: "#7A16CE",
   eyes: "happy",

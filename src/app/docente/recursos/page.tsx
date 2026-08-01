@@ -17,16 +17,20 @@ import { Badge } from "@/components/ui/badge";
 import { Modal } from "@/components/ui/modal";
 import { UploadZone } from "@/components/upload/upload-zone";
 import { Mascot } from "@/components/kibo/mascot";
+import { FlashcardDeck } from "@/components/kibo/flashcard-deck";
 import {
   analyzeResource,
   generateFromResource,
+  generateFlashcards,
   type ResourceAnalysis,
   type GeneratedArtifact,
+  type Flashcard,
 } from "@/services/gemma";
 
 type Stage = "idle" | "analyzing" | "done";
+type GeneratorKey = "quiz" | "resumen" | "clase" | "flashcards";
 
-const GENERATORS: { key: "quiz" | "resumen" | "clase" | "flashcards"; label: string; icon: React.ElementType }[] = [
+const GENERATORS: { key: GeneratorKey; label: string; icon: React.ElementType }[] = [
   { key: "quiz", label: "Generar Quiz", icon: FileQuestion },
   { key: "resumen", label: "Generar Resumen", icon: BookOpen },
   { key: "clase", label: "Generar Clase", icon: GraduationCap },
@@ -38,6 +42,7 @@ export default function RecursosPage() {
   const [fileName, setFileName] = React.useState("");
   const [analysis, setAnalysis] = React.useState<ResourceAnalysis | null>(null);
   const [artifact, setArtifact] = React.useState<GeneratedArtifact | null>(null);
+  const [flashcards, setFlashcards] = React.useState<Flashcard[] | null>(null);
   const [generating, setGenerating] = React.useState<string | null>(null);
 
   async function handleFile(name: string) {
@@ -48,11 +53,16 @@ export default function RecursosPage() {
     setStage("done");
   }
 
-  async function handleGenerate(kind: (typeof GENERATORS)[number]["key"]) {
+  async function handleGenerate(kind: GeneratorKey) {
     if (!analysis) return;
     setGenerating(kind);
-    const result = await generateFromResource(kind, analysis);
-    setArtifact(result);
+    if (kind === "flashcards") {
+      const result = await generateFlashcards(analysis);
+      setFlashcards(result);
+    } else {
+      const result = await generateFromResource(kind, analysis);
+      setArtifact(result);
+    }
     setGenerating(null);
   }
 
@@ -175,6 +185,10 @@ export default function RecursosPage() {
           <Sparkles className="mt-0.5 h-4 w-4 shrink-0 text-[var(--color-primary)]" />
           <p className="min-w-0 flex-1 whitespace-pre-line break-words leading-relaxed">{artifact?.content}</p>
         </div>
+      </Modal>
+
+      <Modal open={!!flashcards} onClose={() => setFlashcards(null)} title="Flashcards generadas" description="Toca cada tarjeta para ver la respuesta.">
+        {flashcards && <FlashcardDeck cards={flashcards} />}
       </Modal>
     </main>
   );
