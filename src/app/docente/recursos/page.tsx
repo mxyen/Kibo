@@ -57,7 +57,7 @@ export default function RecursosPage() {
   }
 
   return (
-    <main className="mx-auto max-w-4xl px-8 py-10">
+    <main className="mx-auto max-w-4xl px-4 py-8 sm:px-8 sm:py-10">
       <h1 className="text-3xl font-bold tracking-tight">Recursos</h1>
       <p className="mt-1 text-sm text-black/45">
         Sube material educativo y deja que Gemma 4 lo analice para ti.
@@ -146,7 +146,7 @@ export default function RecursosPage() {
                 </div>
               </Card>
 
-              <div className="grid gap-3 sm:grid-cols-4">
+              <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
                 {GENERATORS.map((g) => (
                   <motion.button
                     key={g.key}
@@ -154,14 +154,14 @@ export default function RecursosPage() {
                     whileTap={{ scale: 0.97 }}
                     onClick={() => handleGenerate(g.key)}
                     disabled={generating !== null}
-                    className="flex flex-col items-center gap-2 rounded-xl border border-[var(--color-border)] bg-white p-4 text-sm font-medium shadow-[var(--shadow-soft)] disabled:opacity-60"
+                    className="flex min-w-0 flex-col items-center gap-2 rounded-xl border border-[var(--color-border)] bg-white p-3 text-center text-xs font-medium shadow-[var(--shadow-soft)] disabled:opacity-60 sm:p-4 sm:text-sm"
                   >
                     {generating === g.key ? (
-                      <Loader2 className="h-5 w-5 animate-spin text-[var(--color-primary)]" />
+                      <Loader2 className="h-5 w-5 shrink-0 animate-spin text-[var(--color-primary)]" />
                     ) : (
-                      <g.icon className="h-5 w-5 text-[var(--color-primary)]" />
+                      <g.icon className="h-5 w-5 shrink-0 text-[var(--color-primary)]" />
                     )}
-                    {g.label}
+                    <span className="leading-tight break-words">{g.label}</span>
                   </motion.button>
                 ))}
               </div>
@@ -173,7 +173,7 @@ export default function RecursosPage() {
       <Modal open={!!artifact} onClose={() => setArtifact(null)} title={artifact?.title}>
         <div className="flex items-start gap-2 rounded-xl bg-[var(--color-surface-muted)] p-4 text-sm">
           <Sparkles className="mt-0.5 h-4 w-4 shrink-0 text-[var(--color-primary)]" />
-          <p className="whitespace-pre-line leading-relaxed">{artifact?.content}</p>
+          <p className="min-w-0 flex-1 whitespace-pre-line break-words leading-relaxed">{artifact?.content}</p>
         </div>
       </Modal>
     </main>

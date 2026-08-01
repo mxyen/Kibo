@@ -67,7 +67,7 @@ export function ChatWidget() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 16, scale: 0.97 }}
             transition={{ type: "spring", duration: 0.4, bounce: 0.15 }}
-            className="fixed right-6 z-40 flex h-[32rem] w-[22rem] flex-col overflow-hidden rounded-[var(--radius-lg)] border border-[var(--color-border)] bg-white shadow-[var(--shadow-soft-lg)]"
+            className="fixed inset-x-4 z-40 flex h-[min(32rem,70dvh)] flex-col overflow-hidden rounded-[var(--radius-lg)] border border-[var(--color-border)] bg-white shadow-[var(--shadow-soft-lg)] sm:inset-x-auto sm:right-6 sm:w-[22rem]"
             style={{ bottom: "6.5rem" }}
           >
             <div className="flex items-center gap-3 gradient-brand p-4 text-white">

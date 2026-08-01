@@ -30,7 +30,7 @@ export default function GemmaInsightsPage() {
   }
 
   return (
-    <main className="mx-auto max-w-4xl px-8 py-10">
+    <main className="mx-auto max-w-4xl px-4 py-8 sm:px-8 sm:py-10">
       <div className="flex items-center gap-2">
         <Sparkles className="h-6 w-6 text-[var(--color-primary)]" />
         <h1 className="text-3xl font-bold tracking-tight">Gemma Insights</h1>
@@ -71,7 +71,7 @@ export default function GemmaInsightsPage() {
       </div>
 
       <Modal open={!!plan} onClose={() => setPlan(null)} title={plan?.title}>
-        <div className="whitespace-pre-line rounded-xl bg-[var(--color-surface-muted)] p-4 text-sm leading-relaxed">
+        <div className="whitespace-pre-line break-words rounded-xl bg-[var(--color-surface-muted)] p-4 text-sm leading-relaxed">
           {plan?.content}
         </div>
       </Modal>

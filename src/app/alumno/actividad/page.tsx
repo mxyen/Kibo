@@ -36,7 +36,7 @@ export default function ActividadPage() {
   const isCorrect = selected === mockActivity.answerIndex;
 
   return (
-    <main className="mx-auto max-w-2xl px-6 py-14">
+    <main className="mx-auto max-w-2xl px-4 py-10 sm:px-6 sm:py-14">
       <Badge variant="primary">{mockActivity.topic}</Badge>
       <h1 className="mt-3 text-2xl font-bold tracking-tight">Actividad</h1>
 
@@ -86,7 +86,7 @@ export default function ActividadPage() {
                   KIBO está pensando la mejor explicación...
                 </span>
               ) : (
-                <p className="whitespace-pre-line text-sm leading-relaxed">{explanation}</p>
+                <p className="whitespace-pre-line break-words text-sm leading-relaxed">{explanation}</p>
               )}
             </div>
           </motion.div>

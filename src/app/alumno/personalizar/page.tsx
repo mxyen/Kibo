@@ -35,7 +35,7 @@ export default function PersonalizarPage() {
   }
 
   return (
-    <main className="mx-auto max-w-4xl px-6 py-14">
+    <main className="mx-auto max-w-4xl px-4 py-10 sm:px-6 sm:py-14">
       <div className="text-center">
         <h1 className="text-3xl font-bold tracking-tight">Personaliza a tu KIBO</h1>
         <p className="mt-2 text-black/50">Hazlo tuyo antes de comenzar a aprender.</p>

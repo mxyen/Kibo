@@ -42,7 +42,7 @@ export default function MisClasesPage() {
   }
 
   return (
-    <main className="mx-auto max-w-5xl px-8 py-10">
+    <main className="mx-auto max-w-5xl px-4 py-8 sm:px-8 sm:py-10">
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-3xl font-bold tracking-tight">Mis Clases</h1>

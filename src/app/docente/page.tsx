@@ -17,7 +17,7 @@ export default function DocenteDashboard() {
   const clase = mockClasses[0];
 
   return (
-    <main className="mx-auto max-w-5xl px-8 py-10">
+    <main className="mx-auto max-w-5xl px-4 py-8 sm:px-8 sm:py-10">
       <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4 }}>
         <p className="text-sm font-medium text-black/45">Bienvenido de vuelta</p>
         <h1 className="mt-1 text-3xl font-bold tracking-tight">Dashboard</h1>

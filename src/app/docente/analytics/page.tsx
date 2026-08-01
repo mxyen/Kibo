@@ -12,7 +12,7 @@ const DAYS = ["Lun", "Mar", "Mié", "Jue", "Vie", "Sáb", "Dom"];
 
 export default function AnalyticsPage() {
   return (
-    <main className="mx-auto max-w-5xl px-8 py-10">
+    <main className="mx-auto max-w-5xl px-4 py-8 sm:px-8 sm:py-10">
       <div className="flex items-center gap-2">
         <BarChart3 className="h-6 w-6 text-[var(--color-primary)]" />
         <h1 className="text-3xl font-bold tracking-tight">Analytics</h1>

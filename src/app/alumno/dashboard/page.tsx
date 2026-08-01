@@ -16,7 +16,7 @@ export default function AlumnoDashboardPage() {
   if (!loaded) return null;
 
   return (
-    <main className="mx-auto max-w-4xl px-6 py-12">
+    <main className="mx-auto max-w-4xl px-4 py-8 sm:px-6 sm:py-12">
       <motion.div
         initial={{ opacity: 0, y: 12 }}
         animate={{ opacity: 1, y: 0 }}

@@ -51,7 +51,7 @@ export function Modal({
             exit={{ opacity: 0, scale: 0.96, y: 8 }}
             transition={{ type: "spring", duration: 0.4, bounce: 0.15 }}
             className={cn(
-              "relative z-10 w-full max-w-lg rounded-[var(--radius-lg)] bg-white p-6 shadow-[var(--shadow-soft-lg)]",
+              "relative z-10 flex max-h-[85vh] w-full max-w-xl flex-col rounded-[var(--radius-lg)] bg-white p-6 shadow-[var(--shadow-soft-lg)]",
               className,
             )}
           >
@@ -62,9 +62,9 @@ export function Modal({
             >
               <X className="h-4 w-4" />
             </button>
-            {title && <h2 className="text-xl font-semibold tracking-tight">{title}</h2>}
+            {title && <h2 className="pr-8 text-xl font-semibold tracking-tight break-words">{title}</h2>}
             {description && <p className="mt-1 text-sm text-black/50">{description}</p>}
-            <div className={title ? "mt-5" : ""}>{children}</div>
+            <div className={cn("min-h-0 flex-1 overflow-y-auto break-words", title ? "mt-5" : "")}>{children}</div>
           </motion.div>
         </div>
       )}

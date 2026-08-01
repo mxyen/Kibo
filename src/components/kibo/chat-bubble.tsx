@@ -16,7 +16,7 @@ export function ChatBubble({
       {isAssistant && <Mascot size={32} bounce={false} eyes="happy" />}
       <div
         className={cn(
-          "max-w-[80%] whitespace-pre-line rounded-2xl px-4 py-2.5 text-sm leading-relaxed",
+          "min-w-0 max-w-[80%] whitespace-pre-line break-words rounded-2xl px-4 py-2.5 text-sm leading-relaxed",
           isAssistant
             ? "rounded-bl-sm bg-[var(--color-surface-muted)] text-[var(--foreground)]"
             : "rounded-br-sm gradient-primary text-white",
