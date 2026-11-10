@@ -3,6 +3,7 @@
 :root {
   --background: #f7f6fb;
   --foreground: #1a1523;
+  --font-outfit: "Trebuchet MS", ui-sans-serif, system-ui, sans-serif;
 
   --color-primary: #7a16ce;
   --color-primary-light: #9b4ce8;

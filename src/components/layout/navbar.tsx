@@ -11,6 +11,10 @@ export function Navbar({ children }: { children?: React.ReactNode }) {
             KI<span className="text-gradient-brand">BO</span>
           </span>
         </Link>
+        <nav className="hidden items-center gap-4 text-sm font-medium text-black/55 sm:flex">
+          <Link href="/productos" className="hover:text-[var(--color-primary)]">Productos</Link>
+          <Link href="/docente" className="hover:text-[var(--color-primary)]">Servicios y planes</Link>
+        </nav>
         <div className="flex items-center gap-3">{children}</div>
       </div>
     </header>
